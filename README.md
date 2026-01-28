@@ -8,7 +8,3 @@ Description:
 
 This web application is a SAFIntern project and will be used for school management; inclusive of students enrollment, attendance and fee management.
 
-DELIVERABLES:
-Week 1: 	Setup a spring boot application using the maven build tool.
-
-Week 2: Design a database schema for any domain of your choice and produce an Entity Relationship Diagram (ERD) for the database
