@@ -16,4 +16,5 @@ public class Classroom {
     private Long id;
     private String roomNumber;
     private int capacity;
+
 }

@@ -3,6 +3,7 @@ package com.lytwind.academix.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,4 +18,7 @@ public class Student extends Person{
     @ManyToOne
     @JoinColumn(name = "guardian_id")
     private Guardian guardian;
+
+    @OneToOne
+    private Classroom classroom;
 }
