@@ -1,8 +1,6 @@
 package com.lytwind.academix.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +9,8 @@ import lombok.Setter;
 @Setter
 public class Course {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String courseCode;
     private String title;
     private int creditUnits;
