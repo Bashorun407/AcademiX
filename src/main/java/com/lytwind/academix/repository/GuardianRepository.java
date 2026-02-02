@@ -4,6 +4,10 @@ import com.lytwind.academix.entity.Guardian;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface GuardianRepository extends JpaRepository<Guardian, Long> {
+    // Find a guardian by the student's ID
+    Optional<Guardian> findByFirstNameAndLastName(String firstName, String lastName);
 }
