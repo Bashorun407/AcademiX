@@ -1,6 +1,7 @@
 package com.lytwind.academix.repository;
 
 import com.lytwind.academix.entity.Student;
+import com.lytwind.academix.repository.projection.StudentView;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
     Optional<Student> findByStudentRegNumber(String regNumber);
-    List<Student> findByLastNameContainingIgnoreCase(String name);
+    List<StudentView> findByLastNameContainingIgnoreCase(String name);
 }

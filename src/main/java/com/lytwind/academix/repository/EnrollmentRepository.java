@@ -1,6 +1,7 @@
 package com.lytwind.academix.repository;
 
 import com.lytwind.academix.entity.Enrollment;
+import com.lytwind.academix.repository.projection.EnrollmentView;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,5 +12,5 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
     boolean existsByStudentIdAndCourseCourseCode(Long studentId, String courseCode);
 
     // Get all enrollments for a specific course
-    List<Enrollment> findByCourseCourseCode(String courseCode);
+    List<EnrollmentView> findByCourseCourseCode(String courseCode);
 }
