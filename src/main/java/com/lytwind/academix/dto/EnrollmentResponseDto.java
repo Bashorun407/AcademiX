@@ -8,6 +8,6 @@ public record EnrollmentResponseDto(
         String studentRegNumber,
         String courseCode,
         String title,
-        LocalDate enrollmentDate
+        String enrollmentDate
 ) {
 }

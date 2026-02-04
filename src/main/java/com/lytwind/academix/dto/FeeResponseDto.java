@@ -9,7 +9,6 @@ public record FeeResponseDto(
         LocalDate dueDate,
         String firstName,
         String lastName,
-        String studentRegNumber,
-        String roomNumber
+        String studentRegNumber
 ) {
 }

@@ -8,7 +8,7 @@ public interface FeeView {
     boolean getIsPaid();
     LocalDate getDueDate();
     StudentInfo getStudent();
-    CourseInfo getCourse();
+
 
 
     interface StudentInfo{
@@ -17,7 +17,4 @@ public interface FeeView {
         String getStudentRegNumber();
     }
 
-    interface CourseInfo{
-        String getRoomNumber();
-    }
 }

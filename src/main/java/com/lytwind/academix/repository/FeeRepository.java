@@ -12,6 +12,6 @@ public interface FeeRepository extends JpaRepository<Fee, Long> {
     @Query("SELECT f FROM Fee f WHERE f.isPaid = false AND f.student.id = :studentId")
     List<FeeView> findPendingFeesByStudent(Long studentId);
 
-    @Query("SELECT s FROM Student s WHERE f.isPaid = true AND f.student.id =: studentId")
+    @Query("SELECT f FROM Fee f WHERE f.isPaid = true AND f.student.id =: studentId")
     List<FeeView> findPaidFeesByStudent(Long studentId);
 }

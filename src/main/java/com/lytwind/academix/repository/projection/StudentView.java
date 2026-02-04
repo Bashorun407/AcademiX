@@ -6,8 +6,8 @@ public interface StudentView {
     String getFirstName();
     String getLastName();
     String getEmail();
-    LocalDate getDateOfBirth();
     ClassroomInfo getClassRoom();
+    GuardianInfo getGuardian();
 
     interface ClassroomInfo{
         String getRoomNumber();
