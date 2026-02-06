@@ -2,7 +2,9 @@ package com.lytwind.academix.controller;
 
 import com.lytwind.academix.dto.RegisterStudentRequestDto;
 import com.lytwind.academix.dto.StudentResponseDto;
+import com.lytwind.academix.dto.UpdateStudentRequestDto;
 import com.lytwind.academix.service.StudentService;
+import org.hibernate.sql.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +40,8 @@ public class StudentController {
     }
 
     @PutMapping("/update/{studentId}")
-    public ResponseEntity<StudentResponseDto> updateStudent(@PathVariable Long studentId, @RequestBody RegisterStudentRequestDto registerStudentRequestDto){
-        StudentResponseDto student = studentService.updateStudent(studentId, registerStudentRequestDto);
+    public ResponseEntity<StudentResponseDto> updateStudent(@PathVariable Long studentId, @RequestBody UpdateStudentRequestDto updateStudentRequestDto){
+        StudentResponseDto student = studentService.updateStudent(studentId, updateStudentRequestDto);
 
         return ResponseEntity.ok(student);
     }

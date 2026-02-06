@@ -2,6 +2,7 @@ package com.lytwind.academix.service.serviceImpl;
 
 import com.lytwind.academix.dto.RegisterStudentRequestDto;
 import com.lytwind.academix.dto.StudentResponseDto;
+import com.lytwind.academix.dto.UpdateStudentRequestDto;
 import com.lytwind.academix.entity.Classroom;
 import com.lytwind.academix.entity.Guardian;
 import com.lytwind.academix.entity.Student;
@@ -61,18 +62,16 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentResponseDto updateStudent(Long id, RegisterStudentRequestDto studentDetails) {
+    public StudentResponseDto updateStudent(Long id, UpdateStudentRequestDto studentDetails) {
         Student student = studentRepository.getReferenceById(id);
 
         Classroom classroom = classroomRepository.findByRoomNumber(studentDetails.classroomNumber())
                 .orElseThrow();
 
         // Update fields from the MappedSuperclass and Student class
-        student.setFirstName(studentDetails.firstName());
-        student.setLastName(studentDetails.lastName());
         student.setEmail(studentDetails.email());
-        student.setStudentRegNumber(studentDetails.studentRegNumber());
-        student.setDateOfBirth(studentDetails.dateOfBirth());
+        student.setPhoneNumber(studentDetails.phoneNumber());
+        student.setClassroom(classroom);
 
         Student savedStudent = studentRepository.save(student);
 
