@@ -1,8 +1,9 @@
 package com.lytwind.academix.controller;
 
-import com.lytwind.academix.dto.StudentRequestDto;
+import com.lytwind.academix.dto.RegisterStudentRequestDto;
 import com.lytwind.academix.dto.StudentResponseDto;
 import com.lytwind.academix.service.StudentService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,12 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<StudentResponseDto> registerStudent(@RequestBody RegisterStudentRequestDto registerStudentRequestDto){
+        StudentResponseDto student = studentService.registerStudent(registerStudentRequestDto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(student);
+    }
     @GetMapping("/{studentId}")
     public ResponseEntity<StudentResponseDto> getStudentById(@PathVariable Long studentId){
 
@@ -31,8 +38,8 @@ public class StudentController {
     }
 
     @PutMapping("/update/{studentId}")
-    public ResponseEntity<StudentResponseDto> updateStudent(@PathVariable Long studentId, @RequestBody StudentRequestDto studentRequestDto){
-        StudentResponseDto student = studentService.updateStudent(studentId, studentRequestDto);
+    public ResponseEntity<StudentResponseDto> updateStudent(@PathVariable Long studentId, @RequestBody RegisterStudentRequestDto registerStudentRequestDto){
+        StudentResponseDto student = studentService.updateStudent(studentId, registerStudentRequestDto);
 
         return ResponseEntity.ok(student);
     }

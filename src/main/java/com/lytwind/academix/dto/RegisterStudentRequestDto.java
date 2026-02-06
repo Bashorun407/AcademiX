@@ -1,16 +1,15 @@
 package com.lytwind.academix.dto;
 
-import com.lytwind.academix.entity.Classroom;
-import com.lytwind.academix.entity.Guardian;
-
 import java.time.LocalDate;
 
-public record StudentRequestDto(
+public record RegisterStudentRequestDto(
         String firstName,
         String lastName,
         String email,
+        String phoneNumber,
         String studentRegNumber,
         LocalDate dateOfBirth,
-        String classroomNumber
+        String classroomNumber,
+        Long guardianId
 ) {
 }

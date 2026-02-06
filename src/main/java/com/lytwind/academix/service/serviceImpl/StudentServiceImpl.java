@@ -1,6 +1,6 @@
 package com.lytwind.academix.service.serviceImpl;
 
-import com.lytwind.academix.dto.StudentRequestDto;
+import com.lytwind.academix.dto.RegisterStudentRequestDto;
 import com.lytwind.academix.dto.StudentResponseDto;
 import com.lytwind.academix.entity.Classroom;
 import com.lytwind.academix.entity.Guardian;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,6 +23,28 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final GuardianRepository guardianRepository;
     private final ClassroomRepository classroomRepository;
+
+    @Override
+    public StudentResponseDto registerStudent(RegisterStudentRequestDto registerStudentRequestDto) {
+        if (studentRepository.existsByStudentRegNumberAndEmail(registerStudentRequestDto.studentRegNumber(),
+                registerStudentRequestDto.email()))
+            throw new RuntimeException("Student with the details already exist.");
+
+        Guardian guardian = guardianRepository.getReferenceById(registerStudentRequestDto.guardianId());
+
+        Student student = new Student();
+        student.setFirstName(registerStudentRequestDto.firstName());
+        student.setLastName(registerStudentRequestDto.lastName());
+        student.setEmail(registerStudentRequestDto.email());
+        student.setPhoneNumber(registerStudentRequestDto.phoneNumber());
+        student.setStudentRegNumber(registerStudentRequestDto.studentRegNumber());
+        student.setDateOfBirth(registerStudentRequestDto.dateOfBirth());
+        student.setGuardian(guardian);
+
+        Student savedStudent = studentRepository.save(student);
+
+        return StudentMapper.mapToStudentResponseDto(savedStudent);
+    }
 
     @Override
     public StudentResponseDto getStudentById(Long id) {
@@ -40,7 +61,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentResponseDto updateStudent(Long id, StudentRequestDto studentDetails) {
+    public StudentResponseDto updateStudent(Long id, RegisterStudentRequestDto studentDetails) {
         Student student = studentRepository.getReferenceById(id);
 
         Classroom classroom = classroomRepository.findByRoomNumber(studentDetails.classroomNumber())
