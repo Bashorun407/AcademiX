@@ -9,8 +9,8 @@ public record StudentRequestDto(
         String firstName,
         String lastName,
         String email,
+        String studentRegNumber,
         LocalDate dateOfBirth,
-        String classroomNumber,
-        Long guardianId
+        String classroomNumber
 ) {
 }
