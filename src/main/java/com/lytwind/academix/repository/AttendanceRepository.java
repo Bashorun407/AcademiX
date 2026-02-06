@@ -10,5 +10,7 @@ import java.util.List;
 
 @Repository
 public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
+    boolean existsByStudentIdAndDate(Long studentId, LocalDate date);
+    List<AttendanceView> findByStudentId(Long studentId);
     List<AttendanceView> findByStudentIdAndDate(Long studentId, LocalDate date);
 }

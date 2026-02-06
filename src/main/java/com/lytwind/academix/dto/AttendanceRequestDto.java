@@ -5,7 +5,7 @@ import com.lytwind.academix.entity.AttendanceStatus;
 import java.time.LocalDate;
 
 public record AttendanceRequestDto(
-        LocalDate date,
+        Long studentId,
         AttendanceStatus status
 ) {
 }

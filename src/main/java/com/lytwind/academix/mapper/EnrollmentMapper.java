@@ -18,6 +18,7 @@ public class EnrollmentMapper {
         );
     }
 
+
     //For Interface Projection
     public static  EnrollmentResponseDto mapToEnrollmentDto(EnrollmentView enrollmentView){
         return new EnrollmentResponseDto(

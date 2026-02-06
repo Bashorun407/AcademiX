@@ -1,8 +1,14 @@
 package com.lytwind.academix.service.serviceImpl;
 
+import com.lytwind.academix.dto.ClassroomDto;
+import com.lytwind.academix.dto.CourseResponseDto;
+import com.lytwind.academix.dto.DepartmentDto;
 import com.lytwind.academix.entity.Classroom;
 import com.lytwind.academix.entity.Course;
 import com.lytwind.academix.entity.Department;
+import com.lytwind.academix.mapper.ClassroomMapper;
+import com.lytwind.academix.mapper.CourseMapper;
+import com.lytwind.academix.mapper.DepartmentMapper;
 import com.lytwind.academix.repository.ClassroomRepository;
 import com.lytwind.academix.repository.CourseRepository;
 import com.lytwind.academix.repository.DepartmentRepository;
@@ -11,22 +17,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class AcademicServiceImpl implements AcademicService {
 
-    private final CourseRepository courseRepository;
-    private final DepartmentRepository departmentRepository;
-    private final ClassroomRepository classroomRepository;
 
     @Override
-    public Course createCourse(Course course, Long deptId) {
-        Department dept = departmentRepository.findById(deptId).orElseThrow();
-        course.setDepartment(dept);
-        return courseRepository.save(course);
+    public CourseResponseDto createCourse(Course course, Long deptId) {
+        return null;
     }
 
     @Override
-    public Classroom setupClassroom(Classroom classroom) {
-        return classroomRepository.save(classroom);
+    public ClassroomDto setupClassroom(Classroom classroom) {
+        return null;
     }
 }

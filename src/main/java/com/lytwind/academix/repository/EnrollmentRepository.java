@@ -9,9 +9,9 @@ import java.util.List;
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
+    boolean existsByStudentId(Long studentId);
     // Check if a student is already enrolled in a specific course
     boolean existsByStudentIdAndCourseCourseCode(Long studentId, String courseCode);
-
     // Get all enrollments for a specific course
     List<EnrollmentView> findByCourseCourseCode(String courseCode);
 }

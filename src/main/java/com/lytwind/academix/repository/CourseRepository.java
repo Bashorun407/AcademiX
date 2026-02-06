@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, String> {
+
+    boolean existsByCourseCode(String courseCode);
     // List all courses belonging to a specific department
     List<CourseView> findByDepartmentId(Long departmentId);
 }

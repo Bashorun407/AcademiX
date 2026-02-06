@@ -54,7 +54,7 @@ public class GuardianServiceImpl implements GuardianService {
         // If you were using the Senior-level 'ContactInfo' object,
         // you would update the embedded object here.
 
-        //guardian.setPhoneNumber(phone);
+        guardian.setPhoneNumber(phone);
         guardian.setEmail(email);
 
         return guardianRepository.save(guardian);
