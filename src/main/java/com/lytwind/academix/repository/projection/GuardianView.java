@@ -4,5 +4,6 @@ public interface GuardianView {
     String getFirstName();
     String getLastName();
     String getEmail();
+    String getPhoneNumber();
     String getProfession();
 }

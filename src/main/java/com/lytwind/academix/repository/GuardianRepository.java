@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface GuardianRepository extends JpaRepository<Guardian, Long> {
+    boolean existsByEmail(String email);
     // Find a guardian by the student's ID
     Optional<GuardianView> findByFirstNameAndLastName(String firstName, String lastName);
 }

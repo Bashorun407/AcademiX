@@ -35,8 +35,7 @@ public class StudentController {
 
     @GetMapping("/all-students")
     public ResponseEntity<List<StudentResponseDto>> getAllStudents(){
-        List<StudentResponseDto> studentList = studentService.getAllStudents();
-        return ResponseEntity.ok(studentList);
+        return ResponseEntity.ok(studentService.getAllStudents());
     }
 
     @PutMapping("/update/{studentId}")

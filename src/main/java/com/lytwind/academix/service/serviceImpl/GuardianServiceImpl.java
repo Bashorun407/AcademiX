@@ -1,9 +1,15 @@
 package com.lytwind.academix.service.serviceImpl;
 
+import com.lytwind.academix.dto.GuardianDto;
+import com.lytwind.academix.dto.StudentResponseDto;
 import com.lytwind.academix.entity.Guardian;
 import com.lytwind.academix.entity.Student;
+import com.lytwind.academix.mapper.GuardianMapper;
+import com.lytwind.academix.mapper.StudentMapper;
 import com.lytwind.academix.repository.GuardianRepository;
 import com.lytwind.academix.repository.StudentRepository;
+import com.lytwind.academix.repository.projection.GuardianView;
+import com.lytwind.academix.repository.projection.StudentView;
 import com.lytwind.academix.service.GuardianService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,32 +28,45 @@ public class GuardianServiceImpl implements GuardianService {
 
     @Override
     @Transactional
-    public Guardian createGuardian(Guardian guardian) {
+    public GuardianDto createGuardian(GuardianDto guardianDto) {
+        if(guardianRepository.existsByEmail(guardianDto.email()))
+            throw new RuntimeException("Guardian with this email exist.");
+
+        Guardian guardian = new Guardian();
+        guardian.setFirstName(guardian.getFirstName());
+        guardian.setLastName(guardian.getLastName());
+        guardian.setEmail(guardian.getEmail());
+        guardian.setPhoneNumber(guardian.getPhoneNumber());
+        guardian.setProfession(guardian.getProfession());
+
+        Guardian savedGuardian = guardianRepository.save(guardian);
         // Business logic: check if email already exists before saving
-        return guardianRepository.save(guardian);
+        return GuardianMapper.mapToGuardianDto(savedGuardian);
+    }
+
+//    @Override
+//    public Optional<GuardianView> getGuardianById(Long id) {
+//        return guardianRepository.findById(id);
+//    }
+
+    @Override
+    public List<GuardianDto> getAllGuardians() {
+        return guardianRepository.findAll().stream()
+                .map(GuardianMapper::mapToGuardianDto).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Guardian> getGuardianById(Long id) {
-        return guardianRepository.findById(id);
-    }
-
-    @Override
-    public List<Guardian> getAllGuardians() {
-        return guardianRepository.findAll();
-    }
-
-    @Override
-    public List<Student> getStudentsByGuardian(Long guardianId) {
+    public List<StudentResponseDto> getStudentsByGuardian(Long guardianId) {
         // Intermediate level: Business logic to find all children linked to this parent
         return studentRepository.findAll().stream()
                 .filter(s -> s.getGuardian() != null && s.getGuardian().getId().equals(guardianId))
+                .map(StudentMapper::mapToStudentResponseDto)
                 .toList();
     }
 
     @Override
     @Transactional
-    public Guardian updateGuardianContact(Long guardianId, String phone, String email) {
+    public GuardianDto updateGuardianContact(Long guardianId, String phone, String email, String profession) {
         Guardian guardian = guardianRepository.findById(guardianId)
                 .orElseThrow(() -> new EntityNotFoundException("Guardian not found with ID: " + guardianId));
 
@@ -56,7 +76,9 @@ public class GuardianServiceImpl implements GuardianService {
 
         guardian.setPhoneNumber(phone);
         guardian.setEmail(email);
+        guardian.setProfession(profession);
 
-        return guardianRepository.save(guardian);
+        Guardian updatedGuardian = guardianRepository.save(guardian);
+        return GuardianMapper.mapToGuardianDto(updatedGuardian);
     }
 }

@@ -12,6 +12,7 @@ public class GuardianMapper {
                 guardian.getFirstName(),
                 guardian.getLastName(),
                 guardian.getEmail(),
+                guardian.getPhoneNumber(),
                 guardian.getProfession()
         );
     }
@@ -22,6 +23,7 @@ public class GuardianMapper {
                 guardianView.getFirstName(),
                 guardianView.getLastName(),
                 guardianView.getEmail(),
+                guardianView.getPhoneNumber(),
                 guardianView.getProfession()
         );
     }
