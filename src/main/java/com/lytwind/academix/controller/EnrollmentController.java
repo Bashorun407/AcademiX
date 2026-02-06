@@ -28,7 +28,7 @@ public class EnrollmentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(enrolledStudent);
     }
 
-    @GetMapping
+    @GetMapping("/all-enrollments")
     public ResponseEntity<List<EnrollmentResponseDto>> getAllEnrolledStudents(){
         List<EnrollmentResponseDto> enrolledStudents = enrollmentService.getAllEnrolledStudents();
         return ResponseEntity.ok(enrolledStudents);

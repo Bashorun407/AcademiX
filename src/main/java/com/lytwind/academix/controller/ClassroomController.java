@@ -28,7 +28,7 @@ public class ClassroomController {
 
     }
 
-    @GetMapping
+    @GetMapping("/all-classes")
     public ResponseEntity<List<ClassroomDto>> allClasses(){
         List<ClassroomDto> classroomDtoList = classroomService.allClasses();
 

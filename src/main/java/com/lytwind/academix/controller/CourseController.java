@@ -33,7 +33,7 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.CREATED).body(course);
     }
 
-    @GetMapping
+    @GetMapping("/all-courses")
     public ResponseEntity<List<CourseResponseDto>> allCourses(){
         List<CourseResponseDto> allCourses = courseService.allCourses();
 

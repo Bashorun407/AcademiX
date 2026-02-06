@@ -30,14 +30,14 @@ public class AttendanceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(attendanceResponseDto);
     }
 
-    @GetMapping("/{studentId}")
+    @GetMapping("/student-attendance/{studentId}")
     public ResponseEntity<List<AttendanceResponseDto>> studentAttendance(@PathVariable Long studentId) {
         List<AttendanceResponseDto> responseDto = attendanceService.studentAttendance(studentId);
 
         return ResponseEntity.ok(responseDto);
     }
 
-    @GetMapping("/{studentId}/{date}")
+    @GetMapping("/attendance-with-date/{studentId}/{date}")
     public ResponseEntity<List<AttendanceResponseDto>> studentAttendanceWithDate(
             @PathVariable Long studentId,
             @PathVariable LocalDate date
