@@ -46,7 +46,8 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @PutMapping("/update/{studentId}/{guardianId}")
+    //This should be called in Guardian Service update class for auto-update
+    @PutMapping("/update-student-guardian/{studentId}/{guardianId}")
     public ResponseEntity<StudentResponseDto> updateStudentGuardian(@PathVariable Long studentId, @PathVariable Long guardianId){
         StudentResponseDto student = studentService.updateStudentGuardian(studentId, guardianId);
         return ResponseEntity.ok(student);
