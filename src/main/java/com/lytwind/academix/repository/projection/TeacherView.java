@@ -4,6 +4,7 @@ public interface TeacherView {
     String getFirstName();
     String getLastName();
     String getEmail();
+    String getPhoneNumber();
     String getEmployeeId();
     DepartmentInfo getDepartment();
 

@@ -1,9 +1,9 @@
 package com.lytwind.academix.controller;
 
-import com.lytwind.academix.dto.DepartmentDto;
+import com.lytwind.academix.dto.DepartmentRequestDto;
+import com.lytwind.academix.dto.DepartmentResponseDto;
 import com.lytwind.academix.service.DepartmentService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,16 +20,16 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public ResponseEntity<DepartmentDto> createDepartment(@RequestBody DepartmentDto departmentDto){
+    public ResponseEntity<DepartmentResponseDto> createDepartment(@RequestBody DepartmentRequestDto departmentRequestDto){
 
-        DepartmentDto department = departmentService.createDepartment(departmentDto.name());
+        DepartmentResponseDto department = departmentService.createDepartment(departmentRequestDto.name());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(department);
     }
 
     @GetMapping("/all-departments")
-    public ResponseEntity<List<DepartmentDto>> allDepartments(){
-        List<DepartmentDto> departments = departmentService.allDepartments();
+    public ResponseEntity<List<DepartmentResponseDto>> allDepartments(){
+        List<DepartmentResponseDto> departments = departmentService.allDepartments();
 
         return ResponseEntity.ok(departments);
     }

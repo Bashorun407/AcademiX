@@ -1,8 +1,6 @@
 package com.lytwind.academix.service.serviceImpl;
 
-import com.lytwind.academix.dto.AttendanceResponseDto;
-import com.lytwind.academix.dto.ClassroomDto;
-import com.lytwind.academix.entity.Attendance;
+import com.lytwind.academix.dto.ClassroomResponseDto;
 import com.lytwind.academix.entity.Classroom;
 import com.lytwind.academix.mapper.ClassroomMapper;
 import com.lytwind.academix.repository.ClassroomRepository;
@@ -20,7 +18,7 @@ public class ClassroomServiceImpl implements ClassroomService {
     private final ClassroomRepository classroomRepository;
 
     @Override
-    public ClassroomDto classroomSetUp(String roomNumber, int capacity, int maxRoomCapacity) {
+    public ClassroomResponseDto classroomSetUp(String roomNumber, int capacity, int maxRoomCapacity) {
         if(classroomRepository.existsByRoomNumber(roomNumber))
             throw new IllegalArgumentException("Classroom already exists.");
 
@@ -35,7 +33,7 @@ public class ClassroomServiceImpl implements ClassroomService {
     }
 
     @Override
-    public List<ClassroomDto> allClasses() {
+    public List<ClassroomResponseDto> allClasses() {
         return classroomRepository.findAll().stream()
                 .map(ClassroomMapper::mapToClassroomDto).collect(Collectors.toList());
     }

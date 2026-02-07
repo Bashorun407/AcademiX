@@ -1,21 +1,22 @@
 package com.lytwind.academix.mapper;
 
-import com.lytwind.academix.dto.DepartmentDto;
+import com.lytwind.academix.dto.DepartmentRequestDto;
+import com.lytwind.academix.dto.DepartmentResponseDto;
 import com.lytwind.academix.entity.Department;
 import com.lytwind.academix.repository.projection.DepartmentView;
 
 public class DepartmentMapper {
 
     //For Entity
-    public static DepartmentDto mapToDepartmentDto(Department department){
-        return new DepartmentDto(
+    public static DepartmentResponseDto mapToDepartmentDto(Department department){
+        return new DepartmentResponseDto(
                 department.getName()
         );
     }
 
     //For Interface Projection
-    public static DepartmentDto mapToDepartmentDto(DepartmentView departmentView){
-        return new DepartmentDto(
+    public static DepartmentResponseDto mapToDepartmentDto(DepartmentView departmentView){
+        return new DepartmentResponseDto(
                 departmentView.getName()
         );
     }

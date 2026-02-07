@@ -12,6 +12,7 @@ public class TeacherMapper {
                 teacher.getFirstName(),
                 teacher.getLastName(),
                 teacher.getEmail(),
+                teacher.getPhoneNumber(),
                 teacher.getEmployeeId(),
                 teacher.getDepartment().getName()
         );
@@ -23,6 +24,7 @@ public class TeacherMapper {
                 teacherView.getFirstName(),
                 teacherView.getLastName(),
                 teacherView.getEmail(),
+                teacherView.getPhoneNumber(),
                 teacherView.getEmployeeId(),
                 teacherView.getDepartment().getName()
         );

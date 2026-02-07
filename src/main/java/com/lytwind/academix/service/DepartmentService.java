@@ -1,10 +1,11 @@
 package com.lytwind.academix.service;
 
-import com.lytwind.academix.dto.DepartmentDto;
+import com.lytwind.academix.dto.DepartmentRequestDto;
+import com.lytwind.academix.dto.DepartmentResponseDto;
 
 import java.util.List;
 
 public interface DepartmentService {
-    DepartmentDto createDepartment(String departmentName);
-    List<DepartmentDto> allDepartments();
+    DepartmentResponseDto createDepartment(String departmentName);
+    List<DepartmentResponseDto> allDepartments();
 }

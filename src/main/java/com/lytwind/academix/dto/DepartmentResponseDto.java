@@ -1,6 +1,6 @@
 package com.lytwind.academix.dto;
 
-public record DepartmentDto(
+public record DepartmentResponseDto(
         String name
 ) {
 }

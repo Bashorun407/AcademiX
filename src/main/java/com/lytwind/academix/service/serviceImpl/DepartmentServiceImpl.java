@@ -1,6 +1,7 @@
 package com.lytwind.academix.service.serviceImpl;
 
-import com.lytwind.academix.dto.DepartmentDto;
+import com.lytwind.academix.dto.DepartmentRequestDto;
+import com.lytwind.academix.dto.DepartmentResponseDto;
 import com.lytwind.academix.entity.Department;
 import com.lytwind.academix.mapper.DepartmentMapper;
 import com.lytwind.academix.repository.DepartmentRepository;
@@ -18,7 +19,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     private final DepartmentRepository departmentRepository;
 
     @Override
-    public DepartmentDto createDepartment(String departmentName) {
+    public DepartmentResponseDto createDepartment(String departmentName) {
         if(departmentRepository.existsByNameIgnoreCase(departmentName))
             throw new IllegalArgumentException("Department already exists.");
 
@@ -30,7 +31,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public List<DepartmentDto> allDepartments() {
+    public List<DepartmentResponseDto> allDepartments() {
         return departmentRepository.findAll().stream()
                 .map(DepartmentMapper::mapToDepartmentDto).collect(Collectors.toList());
 

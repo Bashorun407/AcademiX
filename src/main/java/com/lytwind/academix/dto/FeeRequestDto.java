@@ -11,4 +11,9 @@ public record FeeRequestDto(
         LocalDate dueDate,
         Long studentId
 ) {
+//    public FeeRequestDto{
+//        if(amount.equals(BigDecimal.ZERO) || amount.negate().{
+//
+//        }
+//    }
 }
