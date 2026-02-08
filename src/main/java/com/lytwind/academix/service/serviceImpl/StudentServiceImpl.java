@@ -1,8 +1,8 @@
 package com.lytwind.academix.service.serviceImpl;
 
-import com.lytwind.academix.dto.RegisterStudentRequestDto;
+import com.lytwind.academix.dto.StudentRegisterRequestDto;
 import com.lytwind.academix.dto.StudentResponseDto;
-import com.lytwind.academix.dto.UpdateStudentRequestDto;
+import com.lytwind.academix.dto.StudentUpdateRequestDto;
 import com.lytwind.academix.entity.Classroom;
 import com.lytwind.academix.entity.Guardian;
 import com.lytwind.academix.entity.Student;
@@ -26,20 +26,20 @@ public class StudentServiceImpl implements StudentService {
     private final ClassroomRepository classroomRepository;
 
     @Override
-    public StudentResponseDto registerStudent(RegisterStudentRequestDto registerStudentRequestDto) {
-        if (studentRepository.existsByStudentRegNumberAndEmail(registerStudentRequestDto.studentRegNumber(),
-                registerStudentRequestDto.email()))
+    public StudentResponseDto registerStudent(StudentRegisterRequestDto studentRegisterRequestDto) {
+        if (studentRepository.existsByStudentRegNumberAndEmail(studentRegisterRequestDto.studentRegNumber(),
+                studentRegisterRequestDto.email()))
             throw new RuntimeException("Student with the details already exist.");
 
-        Guardian guardian = guardianRepository.getReferenceById(registerStudentRequestDto.guardianId());
+        Guardian guardian = guardianRepository.getReferenceById(studentRegisterRequestDto.guardianId());
 
         Student student = new Student();
-        student.setFirstName(registerStudentRequestDto.firstName());
-        student.setLastName(registerStudentRequestDto.lastName());
-        student.setEmail(registerStudentRequestDto.email());
-        student.setPhoneNumber(registerStudentRequestDto.phoneNumber());
-        student.setStudentRegNumber(registerStudentRequestDto.studentRegNumber());
-        student.setDateOfBirth(registerStudentRequestDto.dateOfBirth());
+        student.setFirstName(studentRegisterRequestDto.firstName());
+        student.setLastName(studentRegisterRequestDto.lastName());
+        student.setEmail(studentRegisterRequestDto.email());
+        student.setPhoneNumber(studentRegisterRequestDto.phoneNumber());
+        student.setStudentRegNumber(studentRegisterRequestDto.studentRegNumber());
+        student.setDateOfBirth(studentRegisterRequestDto.dateOfBirth());
         student.setGuardian(guardian);
 
         Student savedStudent = studentRepository.save(student);
@@ -62,7 +62,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentResponseDto updateStudent(Long id, UpdateStudentRequestDto studentDetails) {
+    public StudentResponseDto updateStudent(Long id, StudentUpdateRequestDto studentDetails) {
         Student student = studentRepository.getReferenceById(id);
 
         Classroom classroom = classroomRepository.findByRoomNumber(studentDetails.classroomNumber())

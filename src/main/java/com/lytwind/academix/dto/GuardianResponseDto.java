@@ -1,6 +1,6 @@
 package com.lytwind.academix.dto;
 
-public record GuardianDto(
+public record GuardianResponseDto(
         String firstName,
         String lastName,
         String email,

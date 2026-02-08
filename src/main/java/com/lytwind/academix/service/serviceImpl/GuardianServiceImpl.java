@@ -1,15 +1,13 @@
 package com.lytwind.academix.service.serviceImpl;
 
-import com.lytwind.academix.dto.GuardianDto;
+import com.lytwind.academix.dto.GuardianRequestDto;
+import com.lytwind.academix.dto.GuardianResponseDto;
 import com.lytwind.academix.dto.StudentResponseDto;
 import com.lytwind.academix.entity.Guardian;
-import com.lytwind.academix.entity.Student;
 import com.lytwind.academix.mapper.GuardianMapper;
 import com.lytwind.academix.mapper.StudentMapper;
 import com.lytwind.academix.repository.GuardianRepository;
 import com.lytwind.academix.repository.StudentRepository;
-import com.lytwind.academix.repository.projection.GuardianView;
-import com.lytwind.academix.repository.projection.StudentView;
 import com.lytwind.academix.service.GuardianService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,8 +25,8 @@ public class GuardianServiceImpl implements GuardianService {
 
     @Override
     @Transactional
-    public GuardianDto createGuardian(GuardianDto guardianDto) {
-        if(guardianRepository.existsByEmail(guardianDto.email()))
+    public GuardianResponseDto createGuardian(GuardianRequestDto guardianRequestDto) {
+        if(guardianRepository.existsByEmail(guardianRequestDto.email()))
             throw new RuntimeException("Guardian with this email exist.");
 
         Guardian guardian = new Guardian();
@@ -50,7 +47,7 @@ public class GuardianServiceImpl implements GuardianService {
 //    }
 
     @Override
-    public List<GuardianDto> getAllGuardians() {
+    public List<GuardianResponseDto> getAllGuardians() {
         return guardianRepository.findAll().stream()
                 .map(GuardianMapper::mapToGuardianDto).collect(Collectors.toList());
     }
@@ -66,7 +63,7 @@ public class GuardianServiceImpl implements GuardianService {
 
     @Override
     @Transactional
-    public GuardianDto updateGuardianContact(Long guardianId, String phone, String email, String profession) {
+    public GuardianResponseDto updateGuardianContact(Long guardianId, String phone, String email, String profession) {
         Guardian guardian = guardianRepository.findById(guardianId)
                 .orElseThrow(() -> new EntityNotFoundException("Guardian not found with ID: " + guardianId));
 

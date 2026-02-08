@@ -1,10 +1,10 @@
 package com.lytwind.academix.dto;
 
-public record AssignTeacherRequestDto(
+public record TeacherAssignRequestDto(
         Long teacherId,
         Long departmentId
 ) {
-    public AssignTeacherRequestDto {
+    public TeacherAssignRequestDto {
         if(teacherId == null){
             throw new IllegalArgumentException("Teacher ID cannot be null");
         }

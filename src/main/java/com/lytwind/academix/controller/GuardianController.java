@@ -1,6 +1,7 @@
 package com.lytwind.academix.controller;
 
-import com.lytwind.academix.dto.GuardianDto;
+import com.lytwind.academix.dto.GuardianRequestDto;
+import com.lytwind.academix.dto.GuardianResponseDto;
 import com.lytwind.academix.dto.StudentResponseDto;
 import com.lytwind.academix.service.GuardianService;
 import org.springframework.http.HttpStatus;
@@ -20,13 +21,13 @@ public class GuardianController {
     }
 
     @PostMapping
-    public ResponseEntity<GuardianDto> createGuardian(GuardianDto guardianDto){
-        GuardianDto createdGuardian = guardianService.createGuardian(guardianDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdGuardian);
+    public ResponseEntity<GuardianResponseDto> createGuardian(GuardianRequestDto guardianRequestDto){
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(guardianService.createGuardian(guardianRequestDto));
     }
 
     @GetMapping("/all-guardians")
-    public ResponseEntity<List<GuardianDto>> getAllGuardians(){
+    public ResponseEntity<List<GuardianResponseDto>> getAllGuardians(){
         return ResponseEntity.ok(guardianService.getAllGuardians());
     }
 
@@ -36,7 +37,7 @@ public class GuardianController {
     }
 
     @GetMapping("/update-guardian/{guardianId}")
-    public GuardianDto updateGuardianContact(@PathVariable Long guardianId, @RequestBody GuardianDto guardian){
+    public GuardianResponseDto updateGuardianContact(@PathVariable Long guardianId, @RequestBody GuardianRequestDto guardian){
         return guardianService.updateGuardianContact(guardianId, guardian.phoneNumber(),
                 guardian.email(), guardian.profession());
     }
