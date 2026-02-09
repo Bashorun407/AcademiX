@@ -22,9 +22,13 @@ public class StudentController {
 
     @PostMapping("/register")
     public ResponseEntity<StudentResponseDto> registerStudent(@RequestBody StudentRegisterRequestDto studentRegisterRequestDto){
-        StudentResponseDto student = studentService.registerStudent(studentRegisterRequestDto);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(student);
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+                studentService.registerStudent(studentRegisterRequestDto.firstName(), studentRegisterRequestDto.lastName(),
+                        studentRegisterRequestDto.email(), studentRegisterRequestDto.phoneNumber(),
+                        studentRegisterRequestDto.studentRegNumber(),
+                        studentRegisterRequestDto.dateOfBirth(), studentRegisterRequestDto.classroomNumber(),
+                        studentRegisterRequestDto.guardianId()));
     }
     @GetMapping("/{studentId}")
     public ResponseEntity<StudentResponseDto> getStudentById(@PathVariable Long studentId){
@@ -38,17 +42,17 @@ public class StudentController {
     }
 
     @PutMapping("/update/{studentId}")
-    public ResponseEntity<StudentResponseDto> updateStudent(@PathVariable Long studentId, @RequestBody StudentUpdateRequestDto studentUpdateRequestDto){
-        StudentResponseDto student = studentService.updateStudent(studentId, studentUpdateRequestDto);
+    public ResponseEntity<StudentResponseDto> updateStudent(@PathVariable Long studentId,
+                                                            @RequestBody StudentUpdateRequestDto studentUpdateRequestDto){
 
-        return ResponseEntity.ok(student);
+        return ResponseEntity.ok(studentService.updateStudent(studentId, studentUpdateRequestDto));
     }
 
     //This should be called in Guardian Service update class for auto-update
-    @PutMapping("/update-student-guardian/{studentId}/{guardianId}")
-    public ResponseEntity<StudentResponseDto> updateStudentGuardian(@PathVariable Long studentId, @PathVariable Long guardianId){
-        StudentResponseDto student = studentService.updateStudentGuardian(studentId, guardianId);
-        return ResponseEntity.ok(student);
+    @PutMapping("/update-guardian/{studentId}/{guardianId}")
+    public ResponseEntity<StudentResponseDto> updateStudentGuardian(@PathVariable Long studentId,
+                                                                    @PathVariable Long guardianId){
+        return ResponseEntity.ok(studentService.updateStudentGuardian(studentId, guardianId));
     }
 
     @DeleteMapping("/delete/{id}")

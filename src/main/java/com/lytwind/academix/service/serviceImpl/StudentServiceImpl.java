@@ -1,6 +1,5 @@
 package com.lytwind.academix.service.serviceImpl;
 
-import com.lytwind.academix.dto.StudentRegisterRequestDto;
 import com.lytwind.academix.dto.StudentResponseDto;
 import com.lytwind.academix.dto.StudentUpdateRequestDto;
 import com.lytwind.academix.entity.Classroom;
@@ -15,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,20 +26,21 @@ public class StudentServiceImpl implements StudentService {
     private final ClassroomRepository classroomRepository;
 
     @Override
-    public StudentResponseDto registerStudent(StudentRegisterRequestDto studentRegisterRequestDto) {
-        if (studentRepository.existsByStudentRegNumberAndEmail(studentRegisterRequestDto.studentRegNumber(),
-                studentRegisterRequestDto.email()))
+    public StudentResponseDto registerStudent(String firstName, String lastName, String email, String phoneNumber,
+                                              String studentRegNumber, LocalDate dateOfBirth, String classroomNumber,
+                                              Long guardianId) {
+        if (studentRepository.existsByStudentRegNumberAndLastName(studentRegNumber, lastName))
             throw new RuntimeException("Student with the details already exist.");
 
-        Guardian guardian = guardianRepository.getReferenceById(studentRegisterRequestDto.guardianId());
+        Guardian guardian = guardianRepository.getReferenceById(guardianId);
 
         Student student = new Student();
-        student.setFirstName(studentRegisterRequestDto.firstName());
-        student.setLastName(studentRegisterRequestDto.lastName());
-        student.setEmail(studentRegisterRequestDto.email());
-        student.setPhoneNumber(studentRegisterRequestDto.phoneNumber());
-        student.setStudentRegNumber(studentRegisterRequestDto.studentRegNumber());
-        student.setDateOfBirth(studentRegisterRequestDto.dateOfBirth());
+        student.setFirstName(firstName);
+        student.setLastName(lastName);
+        student.setEmail(email);
+        student.setPhoneNumber(phoneNumber);
+        student.setStudentRegNumber(studentRegNumber);
+        student.setDateOfBirth(dateOfBirth);
         student.setGuardian(guardian);
 
         Student savedStudent = studentRepository.save(student);

@@ -25,8 +25,9 @@ public class GuardianServiceImpl implements GuardianService {
 
     @Override
     @Transactional
-    public GuardianResponseDto createGuardian(GuardianRequestDto guardianRequestDto) {
-        if(guardianRepository.existsByEmail(guardianRequestDto.email()))
+    public GuardianResponseDto createGuardian(String firstName, String lastName, String email,
+                                              String phoneNumber, String profession) {
+        if(guardianRepository.existsByEmail(email))
             throw new RuntimeException("Guardian with this email exist.");
 
         Guardian guardian = new Guardian();
@@ -36,9 +37,8 @@ public class GuardianServiceImpl implements GuardianService {
         guardian.setPhoneNumber(guardian.getPhoneNumber());
         guardian.setProfession(guardian.getProfession());
 
-        Guardian savedGuardian = guardianRepository.save(guardian);
         // Business logic: check if email already exists before saving
-        return GuardianMapper.mapToGuardianDto(savedGuardian);
+        return GuardianMapper.mapToGuardianDto(guardianRepository.save(guardian));
     }
 
 //    @Override

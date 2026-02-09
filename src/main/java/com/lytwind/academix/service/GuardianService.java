@@ -7,7 +7,8 @@ import com.lytwind.academix.dto.StudentResponseDto;
 import java.util.List;
 
 public interface GuardianService {
-    GuardianResponseDto createGuardian(GuardianRequestDto guardianRequestDto);
+    GuardianResponseDto createGuardian(String firstName, String lastName, String email,
+                                       String phoneNumber, String profession);
     //Optional<GuardianView> getGuardianById(Long id);
     List<GuardianResponseDto> getAllGuardians();
     List<StudentResponseDto> getStudentsByGuardian(Long guardianId);

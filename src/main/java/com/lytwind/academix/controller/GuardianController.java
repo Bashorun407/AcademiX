@@ -21,9 +21,14 @@ public class GuardianController {
     }
 
     @PostMapping
-    public ResponseEntity<GuardianResponseDto> createGuardian(GuardianRequestDto guardianRequestDto){
+    public ResponseEntity<GuardianResponseDto> createGuardian(@RequestBody GuardianRequestDto guardianRequestDto){
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(guardianService.createGuardian(guardianRequestDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(guardianService.createGuardian(
+                guardianRequestDto.firstName(),
+                guardianRequestDto.lastName(),
+                guardianRequestDto.email(),
+                guardianRequestDto.phoneNumber(),
+                guardianRequestDto.profession()));
     }
 
     @GetMapping("/all-guardians")
@@ -31,12 +36,12 @@ public class GuardianController {
         return ResponseEntity.ok(guardianService.getAllGuardians());
     }
 
-    @GetMapping("/students-guardian/{guardianId}")
+    @GetMapping("/students/{guardianId}")
     public ResponseEntity<List<StudentResponseDto>> getStudentsByGuardian(@PathVariable Long guardianId){
         return ResponseEntity.ok(guardianService.getStudentsByGuardian(guardianId));
     }
 
-    @GetMapping("/update-guardian/{guardianId}")
+    @PutMapping("/update/{guardianId}")
     public GuardianResponseDto updateGuardianContact(@PathVariable Long guardianId, @RequestBody GuardianRequestDto guardian){
         return guardianService.updateGuardianContact(guardianId, guardian.phoneNumber(),
                 guardian.email(), guardian.profession());
