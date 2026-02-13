@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class Fee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; //Field 1
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "student_id")
