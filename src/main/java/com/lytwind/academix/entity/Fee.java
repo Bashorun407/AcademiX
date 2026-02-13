@@ -9,7 +9,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -21,34 +20,34 @@ public class Fee {
 
     @ManyToOne
     @JoinColumn(name = "student_id")
-    private Student student; //Field 2
+    private Student student;
 
     @Column(precision = 19, scale = 2, nullable = false)
-    private BigDecimal amount; // Field 3
+    private BigDecimal amount;
 
-    private boolean isPaid; //Field 4
+    private boolean isPaid;
 
     @Lob
-    private String description; // Field 5: Large text mapping
+    private String description;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
-    private PaymentStatus status; // Field 6: Enum mapping
+    private PaymentStatus status;
 
     @Column(name = "reference_number", nullable = false, unique = true, updatable = false)
-    private String referenceNumber; // Field 7
+    private String referenceNumber;
 
-    private boolean isScholarshipApplicable; // Field 8
+    private boolean isScholarshipApplicable;
 
-    private LocalDate dueDate; // Field 9
+    private LocalDate dueDate;
 
     @CreationTimestamp
     @Column(updatable = false)
-    private LocalDateTime createdAt; // Field 10
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private LocalDateTime updatedAt; // Field 11: Automated Audit field
+    private LocalDateTime updatedAt;
 
     @Version
-    private Integer version; // Field 12: Optimistic locking (Very Advanced!)
+    private Integer version;
 }
