@@ -21,5 +21,4 @@ public class Attendance {
     @ManyToOne
     private Student student;
 
-
 }

@@ -28,6 +28,7 @@ public class Fee {
     private boolean isPaid;
 
     @Lob
+    @Column(name = "description", columnDefinition = "text")
     private String description;
 
     @Enumerated(EnumType.STRING)
