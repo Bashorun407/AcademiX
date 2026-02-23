@@ -22,15 +22,22 @@ public class DepartmentController {
     @PostMapping
     public ResponseEntity<DepartmentResponseDto> createDepartment(@RequestBody DepartmentRequestDto departmentRequestDto){
 
-        DepartmentResponseDto department = departmentService.createDepartment(departmentRequestDto.name());
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(department);
+        return ResponseEntity.status(HttpStatus.CREATED).body(departmentService.createDepartment(departmentRequestDto.name()));
     }
 
     @GetMapping("/all-departments")
     public ResponseEntity<List<DepartmentResponseDto>> allDepartments(){
-        List<DepartmentResponseDto> departments = departmentService.allDepartments();
+        return ResponseEntity.ok(departmentService.allDepartments());
+    }
 
-        return ResponseEntity.ok(departments);
+    @PutMapping("/update-department")
+    public ResponseEntity<DepartmentResponseDto> updateDepartment(@RequestParam String departmentName,
+                                                                  @RequestParam String updateName){
+        return ResponseEntity.ok(departmentService.updateDepartment(departmentName, updateName));
+    }
+
+    @DeleteMapping("/remove-department/{departmentName}")
+    public ResponseEntity<String> deleteDepartment(@PathVariable String departmentName){
+        return ResponseEntity.ok(departmentService.removeDepartment(departmentName));
     }
 }

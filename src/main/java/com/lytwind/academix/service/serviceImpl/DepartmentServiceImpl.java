@@ -1,6 +1,5 @@
 package com.lytwind.academix.service.serviceImpl;
 
-import com.lytwind.academix.dto.DepartmentRequestDto;
 import com.lytwind.academix.dto.DepartmentResponseDto;
 import com.lytwind.academix.entity.Department;
 import com.lytwind.academix.mapper.DepartmentMapper;
@@ -13,10 +12,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class DepartmentServiceImpl implements DepartmentService {
 
     private final DepartmentRepository departmentRepository;
+
+    public DepartmentServiceImpl(DepartmentRepository departmentRepository) {
+        this.departmentRepository = departmentRepository;
+    }
 
     @Override
     public DepartmentResponseDto createDepartment(String departmentName) {
@@ -35,5 +37,24 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentRepository.findAll().stream()
                 .map(DepartmentMapper::mapToDepartmentDto).collect(Collectors.toList());
 
+    }
+
+    @Override
+    public DepartmentResponseDto updateDepartment(String departmentName, String updateName) {
+        Department departmentToBeUpdated = departmentRepository.findByNameIgnoreCase(departmentName)
+                .orElseThrow(()-> new IllegalArgumentException("department with name: " + departmentName + " does not exist."));
+        departmentToBeUpdated.setName(updateName);
+        Department savedDepartment = departmentRepository.save(departmentToBeUpdated);
+        return DepartmentMapper.mapToDepartmentDto(savedDepartment);
+    }
+
+    @Override
+    public String removeDepartment(String departmentName) {
+        Department departmentToBeRemoved = departmentRepository.findByNameIgnoreCase(departmentName)
+                .orElseThrow(()-> new IllegalArgumentException("department with name: " + departmentName + " does not exist."));
+
+        departmentRepository.delete(departmentToBeRemoved);
+
+        return "Department is successfully removed.";
     }
 }
