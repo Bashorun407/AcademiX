@@ -29,12 +29,33 @@ public class ClassroomServiceImpl implements ClassroomService {
 
         Classroom savedClass = classroomRepository.save(classroom);
 
-        return ClassroomMapper.mapToClassroomDto(savedClass);
+        return ClassroomMapper.mapToClassroomResponseDto(savedClass);
+    }
+
+    @Override
+    public ClassroomResponseDto updateClassroom(String roomNumber, int capacity, int maxRoomCapacity) {
+        Classroom classroom = classroomRepository.findByRoomNumber(roomNumber)
+                .orElseThrow(()-> new IllegalArgumentException("Class with this room number does not exist."));
+
+        classroom.setCapacity(capacity);
+        classroom.setMaxRoomCapacity(maxRoomCapacity);
+
+        Classroom updatedClassroom = classroomRepository.save(classroom);
+        return ClassroomMapper.mapToClassroomResponseDto(updatedClassroom);
+    }
+
+    @Override
+    public String deleteClassroom(String roomNumber) {
+        Classroom classroom = classroomRepository.findByRoomNumber(roomNumber)
+                .orElseThrow(()-> new IllegalArgumentException("Class with this room number does not exist."));
+
+        classroomRepository.delete(classroom);
+        return "Classroom has been successfully deleted.";
     }
 
     @Override
     public List<ClassroomResponseDto> allClasses() {
         return classroomRepository.findAll().stream()
-                .map(ClassroomMapper::mapToClassroomDto).collect(Collectors.toList());
+                .map(ClassroomMapper::mapToClassroomResponseDto).collect(Collectors.toList());
     }
 }

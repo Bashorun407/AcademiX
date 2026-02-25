@@ -2,6 +2,7 @@ package com.lytwind.academix.controller;
 
 import com.lytwind.academix.dto.DepartmentRequestDto;
 import com.lytwind.academix.dto.DepartmentResponseDto;
+import com.lytwind.academix.dto.DepartmentUpdateRequestDto;
 import com.lytwind.academix.service.DepartmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +32,11 @@ public class DepartmentController {
     }
 
     @PutMapping("/update-department")
-    public ResponseEntity<DepartmentResponseDto> updateDepartment(@RequestParam String departmentName,
-                                                                  @RequestParam String updateName){
-        return ResponseEntity.ok(departmentService.updateDepartment(departmentName, updateName));
+    public ResponseEntity<DepartmentResponseDto> updateDepartment(@RequestBody DepartmentUpdateRequestDto updateRequestDto){
+        return ResponseEntity.ok(departmentService.updateDepartment(
+                updateRequestDto.departmentName(),
+                updateRequestDto.updateName()
+                ));
     }
 
     @DeleteMapping("/remove-department/{departmentName}")

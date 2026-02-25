@@ -35,4 +35,22 @@ public class ClassroomController {
 
         return ResponseEntity.ok(classroomList);
     }
+
+    @PutMapping("/update-classroom")
+    public ResponseEntity<ClassroomResponseDto> updateClassroom(@RequestBody ClassroomRequestDto classroomRequestDto){
+
+        ClassroomResponseDto updatedClassroom = classroomService.updateClassroom(
+                classroomRequestDto.roomNumber(),
+                classroomRequestDto.capacity(),
+                classroomRequestDto.maxRoomCapacity()
+        );
+        return ResponseEntity.ok(updatedClassroom);
+    }
+
+    @DeleteMapping("/remove-classroom/{room-number}")
+    public ResponseEntity<String> deleteClassroom(@PathVariable String classroomNumber){
+        classroomService.deleteClassroom(classroomNumber);
+
+        return ResponseEntity.ok("Classroom has been successfully deleted");
+    }
 }

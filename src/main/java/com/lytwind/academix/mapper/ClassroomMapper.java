@@ -8,7 +8,7 @@ import com.lytwind.academix.repository.projection.ClassroomView;
 public class ClassroomMapper {
 
     //For Entity
-    public static ClassroomResponseDto mapToClassroomDto(Classroom classroom){
+    public static ClassroomResponseDto mapToClassroomResponseDto(Classroom classroom){
         return new ClassroomResponseDto(
                 classroom.getRoomNumber(),
                 classroom.getCapacity(),
@@ -17,7 +17,7 @@ public class ClassroomMapper {
     }
 
     //For Interface Projection
-    public static ClassroomResponseDto mapToClassroomDto(ClassroomView classroomView){
+    public static ClassroomResponseDto mapToClassroomResponseDto(ClassroomView classroomView){
         return new ClassroomResponseDto(
                 classroomView.getRoomNumber(),
                 classroomView.getCapacity(),
