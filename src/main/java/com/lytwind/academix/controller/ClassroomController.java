@@ -2,6 +2,7 @@ package com.lytwind.academix.controller;
 
 import com.lytwind.academix.dto.ClassroomRequestDto;
 import com.lytwind.academix.dto.ClassroomResponseDto;
+import com.lytwind.academix.dto.ClassroomUpdateRequestDto;
 import com.lytwind.academix.service.ClassroomService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,33 +22,32 @@ public class ClassroomController {
 
     @PostMapping
     public ResponseEntity<ClassroomResponseDto> classroomSetUp(@RequestBody ClassroomRequestDto classroomRequestDto){
-        ClassroomResponseDto classroom = classroomService.classroomSetUp(
-                classroomRequestDto.roomNumber(),
-                classroomRequestDto.capacity(),
-                classroomRequestDto.maxRoomCapacity());
-            return ResponseEntity.status(HttpStatus.CREATED).body(classroom);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body( classroomService.classroomSetUp(
+                    classroomRequestDto.roomNumber(),
+                    classroomRequestDto.capacity(),
+                    classroomRequestDto.maxRoomCapacity()));
 
     }
 
     @GetMapping("/all-classes")
     public ResponseEntity<List<ClassroomResponseDto>> allClasses(){
-        List<ClassroomResponseDto> classroomList = classroomService.allClasses();
 
-        return ResponseEntity.ok(classroomList);
+        return ResponseEntity.ok(classroomService.allClasses());
     }
 
-    @PutMapping("/update-classroom")
-    public ResponseEntity<ClassroomResponseDto> updateClassroom(@RequestBody ClassroomRequestDto classroomRequestDto){
+    @PutMapping("/update-classroom/{roomNumber}")
+    public ResponseEntity<ClassroomResponseDto> updateClassroom(@PathVariable String roomNumber,
+                                                                @RequestBody ClassroomUpdateRequestDto classroomRequestDto){
 
-        ClassroomResponseDto updatedClassroom = classroomService.updateClassroom(
-                classroomRequestDto.roomNumber(),
+
+        return ResponseEntity.ok(classroomService.updateClassroom(
+                roomNumber,
                 classroomRequestDto.capacity(),
-                classroomRequestDto.maxRoomCapacity()
-        );
-        return ResponseEntity.ok(updatedClassroom);
+                classroomRequestDto.maxRoomCapacity()));
     }
 
-    @DeleteMapping("/remove-classroom/{room-number}")
+    @DeleteMapping("/remove-classroom/{classroomNumber}")
     public ResponseEntity<String> deleteClassroom(@PathVariable String classroomNumber){
         classroomService.deleteClassroom(classroomNumber);
 

@@ -31,10 +31,13 @@ public class DepartmentController {
         return ResponseEntity.ok(departmentService.allDepartments());
     }
 
-    @PutMapping("/update-department")
-    public ResponseEntity<DepartmentResponseDto> updateDepartment(@RequestBody DepartmentUpdateRequestDto updateRequestDto){
+    @PutMapping("/update-department/{departmentName}")
+    public ResponseEntity<DepartmentResponseDto> updateDepartment(
+            @PathVariable String departmentName,
+            @RequestBody DepartmentUpdateRequestDto updateRequestDto){
+
         return ResponseEntity.ok(departmentService.updateDepartment(
-                updateRequestDto.departmentName(),
+                departmentName,
                 updateRequestDto.updateName()
                 ));
     }
