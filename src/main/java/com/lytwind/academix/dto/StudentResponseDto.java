@@ -8,6 +8,7 @@ public record StudentResponseDto(
         String studentFirstName,
         String studentLastName,
         String email,
+        String phoneNumber,
         String roomNumber,
         String guardianFirstName,
         String guardianLastName

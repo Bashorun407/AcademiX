@@ -34,6 +34,9 @@ public class StudentServiceImpl implements StudentService {
 
         Guardian guardian = guardianRepository.getReferenceById(guardianId);
 
+        Classroom classroom = classroomRepository.findByRoomNumber(classroomNumber)
+                .orElseThrow(()-> new IllegalArgumentException("There is no Classroom with this room number " + classroomNumber));
+
         Student student = new Student();
         student.setFirstName(firstName);
         student.setLastName(lastName);
@@ -42,6 +45,7 @@ public class StudentServiceImpl implements StudentService {
         student.setStudentRegNumber(studentRegNumber);
         student.setDateOfBirth(dateOfBirth);
         student.setGuardian(guardian);
+        student.setClassroom(classroom);
 
         Student savedStudent = studentRepository.save(student);
 
@@ -67,7 +71,8 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentRepository.getReferenceById(id);
 
         Classroom classroom = classroomRepository.findByRoomNumber(studentDetails.classroomNumber())
-                .orElseThrow();
+                .orElseThrow(()-> new IllegalArgumentException("The class with this id: " +
+                        studentDetails.classroomNumber() + " does not exist"));
 
         // Update fields from the MappedSuperclass and Student class
         student.setEmail(studentDetails.email());

@@ -12,6 +12,7 @@ public class StudentMapper {
                 student.getFirstName(),
                 student.getLastName(),
                 student.getEmail(),
+                student.getPhoneNumber(),
                 student.getClassroom().getRoomNumber(),
                 student.getGuardian().getFirstName(),
                 student.getGuardian().getLastName()
@@ -24,6 +25,7 @@ public class StudentMapper {
                 studentView.getFirstName(),
                 studentView.getLastName(),
                 studentView.getEmail(),
+                studentView.getPhoneNumber(),
                 studentView.getClassRoom().getRoomNumber(),
                 studentView.getGuardian().getFirstName(),
                 studentView.getGuardian().getLastName()
