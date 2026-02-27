@@ -2,6 +2,7 @@ package com.lytwind.academix.service.serviceImpl;
 
 import com.lytwind.academix.dto.TeacherResponseDto;
 import com.lytwind.academix.entity.Department;
+import com.lytwind.academix.entity.Student;
 import com.lytwind.academix.entity.Teacher;
 import com.lytwind.academix.mapper.TeacherMapper;
 import com.lytwind.academix.repository.DepartmentRepository;
@@ -57,5 +58,14 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher updatedTeacher = teacherRepository.save(teacher);
 
         return TeacherMapper.mapToTeacherResponseDto(updatedTeacher);
+    }
+
+    @Override
+    public String removeTeacher(Long teacherId) {
+
+        Teacher teacher = teacherRepository.getReferenceById(teacherId);
+        teacherRepository.delete(teacher);
+
+        return "Teacher details removed.";
     }
 }

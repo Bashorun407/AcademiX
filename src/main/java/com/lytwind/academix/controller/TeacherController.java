@@ -37,12 +37,19 @@ public class TeacherController {
     public ResponseEntity<List<TeacherResponseDto>> getAllTeachers(){
         return ResponseEntity.ok(teacherService.getAllTeachers());
     }
-    @PutMapping
-    public ResponseEntity<TeacherResponseDto> assignToDepartment(@RequestBody TeacherAssignRequestDto teacherAssignRequest){
+    @PutMapping("/assign-teacher/{teacherId}")
+    public ResponseEntity<TeacherResponseDto> assignToDepartment(
+            @PathVariable Long teacherId,
+            @RequestBody TeacherAssignRequestDto teacherAssignRequest){
 
         return ResponseEntity.ok(teacherService.assignToDepartment(
-                teacherAssignRequest.teacherId(),
+                teacherId,
                 teacherAssignRequest.departmentId()
         ));
+    }
+
+    @DeleteMapping("/remove-teacher/{teacherId}")
+    public ResponseEntity<String> removeTeacher(@PathVariable Long teacherId){
+        return  ResponseEntity.ok(teacherService.removeTeacher(teacherId));
     }
 }

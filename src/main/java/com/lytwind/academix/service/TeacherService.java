@@ -12,4 +12,5 @@ public interface TeacherService {
 
     List<TeacherResponseDto> getAllTeachers();
     TeacherResponseDto assignToDepartment(Long teacherId, Long deptId);
+    String removeTeacher(Long teacherId);
 }
