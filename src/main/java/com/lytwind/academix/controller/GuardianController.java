@@ -2,6 +2,7 @@ package com.lytwind.academix.controller;
 
 import com.lytwind.academix.dto.GuardianRequestDto;
 import com.lytwind.academix.dto.GuardianResponseDto;
+import com.lytwind.academix.dto.GuardianUpdateRequestDto;
 import com.lytwind.academix.dto.StudentResponseDto;
 import com.lytwind.academix.service.GuardianService;
 import org.springframework.http.HttpStatus;
@@ -42,8 +43,13 @@ public class GuardianController {
     }
 
     @PutMapping("/update/{guardianId}")
-    public GuardianResponseDto updateGuardianContact(@PathVariable Long guardianId, @RequestBody GuardianRequestDto guardian){
-        return guardianService.updateGuardianContact(guardianId, guardian.phoneNumber(),
-                guardian.email(), guardian.profession());
+    public ResponseEntity<GuardianResponseDto> updateGuardianContact(@PathVariable Long guardianId, @RequestBody GuardianUpdateRequestDto guardian){
+        return ResponseEntity.ok(guardianService.updateGuardian(guardianId, guardian.phoneNumber(),
+                guardian.email(), guardian.profession()));
+    }
+
+    @DeleteMapping("/delete/{guardianId}")
+    public ResponseEntity<String> removeGuardian(@PathVariable Long guardianId){
+        return ResponseEntity.ok(guardianService.removeGuardian(guardianId));
     }
 }

@@ -11,6 +11,7 @@ import com.lytwind.academix.repository.StudentRepository;
 import com.lytwind.academix.service.GuardianService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +19,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class GuardianServiceImpl implements GuardianService {
+
     private final GuardianRepository guardianRepository;
+
     private final StudentRepository studentRepository;
+
+    public GuardianServiceImpl(GuardianRepository guardianRepository, StudentRepository studentRepository) {
+        this.guardianRepository = guardianRepository;
+        this.studentRepository = studentRepository;
+    }
 
     @Override
     @Transactional
@@ -31,20 +38,16 @@ public class GuardianServiceImpl implements GuardianService {
             throw new RuntimeException("Guardian with this email exist.");
 
         Guardian guardian = new Guardian();
-        guardian.setFirstName(guardian.getFirstName());
-        guardian.setLastName(guardian.getLastName());
-        guardian.setEmail(guardian.getEmail());
-        guardian.setPhoneNumber(guardian.getPhoneNumber());
-        guardian.setProfession(guardian.getProfession());
+        guardian.setFirstName(firstName);
+        guardian.setLastName(lastName);
+        guardian.setEmail(email);
+        guardian.setPhoneNumber(phoneNumber);
+        guardian.setProfession(profession);
 
         // Business logic: check if email already exists before saving
         return GuardianMapper.mapToGuardianDto(guardianRepository.save(guardian));
     }
 
-//    @Override
-//    public Optional<GuardianView> getGuardianById(Long id) {
-//        return guardianRepository.findById(id);
-//    }
 
     @Override
     public List<GuardianResponseDto> getAllGuardians() {
@@ -63,7 +66,7 @@ public class GuardianServiceImpl implements GuardianService {
 
     @Override
     @Transactional
-    public GuardianResponseDto updateGuardianContact(Long guardianId, String phone, String email, String profession) {
+    public GuardianResponseDto updateGuardian(Long guardianId, String phone, String email, String profession) {
         Guardian guardian = guardianRepository.findById(guardianId)
                 .orElseThrow(() -> new EntityNotFoundException("Guardian not found with ID: " + guardianId));
 
@@ -77,5 +80,14 @@ public class GuardianServiceImpl implements GuardianService {
 
         Guardian updatedGuardian = guardianRepository.save(guardian);
         return GuardianMapper.mapToGuardianDto(updatedGuardian);
+    }
+
+    @Override
+    public String removeGuardian(Long guardianId) {
+        Guardian guardian = guardianRepository.findById(guardianId)
+                .orElseThrow(() -> new EntityNotFoundException("Guardian not found with ID: " + guardianId));
+
+        guardianRepository.delete(guardian);
+        return "Guardian with ID: " + guardianId + " has been deleted.";
     }
 }

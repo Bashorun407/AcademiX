@@ -12,5 +12,7 @@ public interface GuardianService {
     //Optional<GuardianView> getGuardianById(Long id);
     List<GuardianResponseDto> getAllGuardians();
     List<StudentResponseDto> getStudentsByGuardian(Long guardianId);
-    GuardianResponseDto updateGuardianContact(Long guardianId, String phone, String email, String profession);
+    GuardianResponseDto updateGuardian(Long guardianId, String phone, String email, String profession);
+
+    String removeGuardian(Long guardianId);
 }
