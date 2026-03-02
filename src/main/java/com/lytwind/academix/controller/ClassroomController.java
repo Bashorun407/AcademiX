@@ -25,7 +25,6 @@ public class ClassroomController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body( classroomService.classroomSetUp(
                     classroomRequestDto.roomNumber(),
-                    classroomRequestDto.capacity(),
                     classroomRequestDto.maxRoomCapacity()));
 
     }

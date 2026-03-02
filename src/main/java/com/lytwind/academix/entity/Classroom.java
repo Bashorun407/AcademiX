@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,6 +23,9 @@ public class Classroom {
 
     @Column(name = "max_room_capacity")
     private int maxRoomCapacity;
+
+    @OneToMany(mappedBy = "classroom")
+    private Set<Student> students;
 
     @CreationTimestamp
     @Column(updatable = false)

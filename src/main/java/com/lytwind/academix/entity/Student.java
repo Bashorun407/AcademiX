@@ -20,8 +20,10 @@ public class Student extends Person{
     @JoinColumn(name = "guardian_id")
     private Guardian guardian;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "classroom_id")
     private Classroom classroom;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;

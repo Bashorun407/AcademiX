@@ -32,10 +32,16 @@ public class StudentServiceImpl implements StudentService {
         if (studentRepository.existsByStudentRegNumberAndLastName(studentRegNumber, lastName))
             throw new RuntimeException("Student with the details already exist.");
 
-        Guardian guardian = guardianRepository.getReferenceById(guardianId);
+        Guardian guardian = guardianRepository.findById(guardianId)
+                .orElseThrow(()-> new IllegalArgumentException("There is no guardian with this id: " + guardianId));
 
         Classroom classroom = classroomRepository.findByRoomNumber(classroomNumber)
                 .orElseThrow(()-> new IllegalArgumentException("There is no Classroom with this room number " + classroomNumber));
+
+        //checks if the class capacity is still less than maximum capacity
+        if(classroom.getCapacity() ==  classroom.getMaxRoomCapacity()){
+            throw new RuntimeException("Class is filled up. Check another class.");
+        }
 
         Student student = new Student();
         student.setFirstName(firstName);
@@ -48,6 +54,11 @@ public class StudentServiceImpl implements StudentService {
         student.setClassroom(classroom);
 
         Student savedStudent = studentRepository.save(student);
+
+        //This increases the number of students in a class provided maximum classroom capacity is not reached.
+        int currentCapacity = classroom.getCapacity();
+        classroom.setCapacity(currentCapacity + 1);
+        classroomRepository.save(classroom);
 
         return StudentMapper.mapToStudentResponseDto(savedStudent);
     }

@@ -18,13 +18,13 @@ public class ClassroomServiceImpl implements ClassroomService {
     private final ClassroomRepository classroomRepository;
 
     @Override
-    public ClassroomResponseDto classroomSetUp(String roomNumber, int capacity, int maxRoomCapacity) {
+    public ClassroomResponseDto classroomSetUp(String roomNumber, int maxRoomCapacity) {
         if(classroomRepository.existsByRoomNumber(roomNumber))
             throw new IllegalArgumentException("Classroom already exists.");
 
         Classroom classroom = new Classroom();
         classroom.setRoomNumber(roomNumber);
-        classroom.setCapacity(capacity);
+        classroom.setCapacity(0);
         classroom.setMaxRoomCapacity(maxRoomCapacity);
 
         Classroom savedClass = classroomRepository.save(classroom);
