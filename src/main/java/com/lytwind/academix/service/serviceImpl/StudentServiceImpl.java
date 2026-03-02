@@ -56,8 +56,8 @@ public class StudentServiceImpl implements StudentService {
         Student savedStudent = studentRepository.save(student);
 
         //This increases the number of students in a class provided maximum classroom capacity is not reached.
-        int currentCapacity = classroom.getCapacity();
-        classroom.setCapacity(currentCapacity + 1);
+
+        classroom.setCapacity(classroom.getCapacity() + 1);
         classroomRepository.save(classroom);
 
         return StudentMapper.mapToStudentResponseDto(savedStudent);
