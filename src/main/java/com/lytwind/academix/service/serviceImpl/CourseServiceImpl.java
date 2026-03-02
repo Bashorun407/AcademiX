@@ -25,7 +25,7 @@ public class CourseServiceImpl implements CourseService {
             throw new IllegalArgumentException("Course already exists.");
 
         Department department = departmentRepository.findByNameIgnoreCase(departmentName)
-                .orElseThrow(()-> new IllegalArgumentException("Department with this ID does not exist"));
+                .orElseThrow(()-> new IllegalArgumentException("Department with this name: " + departmentName + " does not exist"));
         Course course = new Course();
         course.setCourseCode(courseCode);
         course.setTitle(title);
