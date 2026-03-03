@@ -42,4 +42,30 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.findAll().stream().map(CourseMapper::mapToCourseResponseDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public CourseResponseDto updateCourse(String courseCode, String title, int creditUnits, String departmentName) {
+        Course course = courseRepository.findByCourseCode(courseCode)
+                .orElseThrow(()-> new IllegalArgumentException("Course with this course code: "+ courseCode
+                        + " does not exist."));
+
+        Department department = departmentRepository.findByNameIgnoreCase(departmentName)
+                        .orElseThrow(()-> new IllegalArgumentException("There is no department with this name: " + departmentName));
+        course.setTitle(title);
+        course.setCreditUnits(creditUnits);
+        course.setDepartment(department);
+
+        return CourseMapper.mapToCourseResponseDto(courseRepository.save(course));
+    }
+
+    @Override
+    public String deleteCourse(String courseCode) {
+        Course course = courseRepository.findByCourseCode(courseCode)
+                .orElseThrow(()-> new IllegalArgumentException("Course with this course code: "+ courseCode
+                        + " does not exist."));
+
+        courseRepository.delete(course);
+
+        return "Course has been successfully deleted.";
+    }
 }

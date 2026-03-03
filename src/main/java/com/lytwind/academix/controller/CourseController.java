@@ -2,6 +2,7 @@ package com.lytwind.academix.controller;
 
 import com.lytwind.academix.dto.CourseRequestDto;
 import com.lytwind.academix.dto.CourseResponseDto;
+import com.lytwind.academix.dto.CourseUpdateRequestDto;
 import com.lytwind.academix.service.CourseService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +39,23 @@ public class CourseController {
         List<CourseResponseDto> allCourses = courseService.allCourses();
 
         return ResponseEntity.status(HttpStatus.OK).body(allCourses);
+    }
+
+    @PutMapping("/update-course/{courseCode}")
+    public ResponseEntity<CourseResponseDto> updateCourse(@PathVariable String courseCode,
+                                                          @RequestBody CourseUpdateRequestDto courseUpdateRequestDto){
+        CourseResponseDto updatedCourse = courseService.updateCourse(
+                courseCode,
+                courseUpdateRequestDto.title(),
+                courseUpdateRequestDto.creditUnits(),
+                courseUpdateRequestDto.departmentName()
+                );
+
+        return ResponseEntity.ok(updatedCourse);
+    }
+
+    @DeleteMapping("/remove-course/{courseCode}")
+    public ResponseEntity<String> deleteCourse(@PathVariable String courseCode){
+         return ResponseEntity.ok(courseService.deleteCourse(courseCode));
     }
 }
