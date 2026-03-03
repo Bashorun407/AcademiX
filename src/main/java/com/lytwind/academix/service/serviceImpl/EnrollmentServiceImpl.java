@@ -28,8 +28,10 @@ public class EnrollmentServiceImpl implements EnrollmentService {
          if (enrollmentRepository.existsByStudentIdAndCourseCourseCode(studentId, courseCode))
              throw new IllegalArgumentException("Student has already been enrolled.");
 
-        Student student = studentRepository.findById(studentId).orElseThrow();
-        Course course = courseRepository.findById(courseCode).orElseThrow();
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(()-> new IllegalArgumentException("There is no student by this ID: " + studentId));
+        Course course = courseRepository.findByCourseCode(courseCode)
+                .orElseThrow(()-> new IllegalArgumentException("There is no course with this course code: " + courseCode));
 
         Enrollment enrollment = new Enrollment();
         enrollment.setStudent(student);

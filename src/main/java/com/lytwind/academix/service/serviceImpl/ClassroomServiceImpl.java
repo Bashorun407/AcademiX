@@ -2,6 +2,7 @@ package com.lytwind.academix.service.serviceImpl;
 
 import com.lytwind.academix.dto.ClassroomResponseDto;
 import com.lytwind.academix.entity.Classroom;
+import com.lytwind.academix.exception.ResourceNotFoundException;
 import com.lytwind.academix.mapper.ClassroomMapper;
 import com.lytwind.academix.repository.ClassroomRepository;
 import com.lytwind.academix.service.ClassroomService;
@@ -35,7 +36,7 @@ public class ClassroomServiceImpl implements ClassroomService {
     @Override
     public ClassroomResponseDto updateClassroom(String roomNumber, int capacity, int maxRoomCapacity) {
         Classroom classroom = classroomRepository.findByRoomNumber(roomNumber)
-                .orElseThrow(()-> new IllegalArgumentException("Class with this room number does not exist."));
+                .orElseThrow(()-> new ResourceNotFoundException("Class with this room number does not exist."));
 
         classroom.setCapacity(capacity);
         classroom.setMaxRoomCapacity(maxRoomCapacity);
@@ -47,7 +48,7 @@ public class ClassroomServiceImpl implements ClassroomService {
     @Override
     public String deleteClassroom(String roomNumber) {
         Classroom classroom = classroomRepository.findByRoomNumber(roomNumber)
-                .orElseThrow(()-> new IllegalArgumentException("Class with this room number does not exist."));
+                .orElseThrow(()-> new ResourceNotFoundException("Class with this room number does not exist."));
 
         classroomRepository.delete(classroom);
         return "Classroom has been successfully deleted.";

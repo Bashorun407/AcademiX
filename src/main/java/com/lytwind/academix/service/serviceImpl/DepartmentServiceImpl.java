@@ -2,6 +2,7 @@ package com.lytwind.academix.service.serviceImpl;
 
 import com.lytwind.academix.dto.DepartmentResponseDto;
 import com.lytwind.academix.entity.Department;
+import com.lytwind.academix.exception.ResourceNotFoundException;
 import com.lytwind.academix.mapper.DepartmentMapper;
 import com.lytwind.academix.repository.DepartmentRepository;
 import com.lytwind.academix.service.DepartmentService;
@@ -42,7 +43,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public DepartmentResponseDto updateDepartment(String departmentName, String updateName) {
         Department departmentToBeUpdated = departmentRepository.findByNameIgnoreCase(departmentName)
-                .orElseThrow(()-> new IllegalArgumentException("department with name: " + departmentName + " does not exist."));
+                .orElseThrow(()-> new ResourceNotFoundException("department with name: " + departmentName + " does not exist."));
         departmentToBeUpdated.setName(updateName);
         Department savedDepartment = departmentRepository.save(departmentToBeUpdated);
         return DepartmentMapper.mapToDepartmentDto(savedDepartment);
@@ -51,7 +52,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public String removeDepartment(String departmentName) {
         Department departmentToBeRemoved = departmentRepository.findByNameIgnoreCase(departmentName)
-                .orElseThrow(()-> new IllegalArgumentException("department with name: " + departmentName + " does not exist."));
+                .orElseThrow(()-> new ResourceNotFoundException("department with name: " + departmentName + " does not exist."));
 
         departmentRepository.delete(departmentToBeRemoved);
 

@@ -4,6 +4,7 @@ import com.lytwind.academix.dto.GuardianRequestDto;
 import com.lytwind.academix.dto.GuardianResponseDto;
 import com.lytwind.academix.dto.StudentResponseDto;
 import com.lytwind.academix.entity.Guardian;
+import com.lytwind.academix.exception.ResourceNotFoundException;
 import com.lytwind.academix.mapper.GuardianMapper;
 import com.lytwind.academix.mapper.StudentMapper;
 import com.lytwind.academix.repository.GuardianRepository;
@@ -35,7 +36,7 @@ public class GuardianServiceImpl implements GuardianService {
     public GuardianResponseDto createGuardian(String firstName, String lastName, String email,
                                               String phoneNumber, String profession) {
         if(guardianRepository.existsByEmail(email))
-            throw new RuntimeException("Guardian with this email exist.");
+            throw new IllegalArgumentException("Guardian with this email exist.");
 
         Guardian guardian = new Guardian();
         guardian.setFirstName(firstName);
@@ -68,7 +69,7 @@ public class GuardianServiceImpl implements GuardianService {
     @Transactional
     public GuardianResponseDto updateGuardian(Long guardianId, String phone, String email, String profession) {
         Guardian guardian = guardianRepository.findById(guardianId)
-                .orElseThrow(() -> new EntityNotFoundException("Guardian not found with ID: " + guardianId));
+                .orElseThrow(() -> new ResourceNotFoundException("Guardian not found with ID: " + guardianId));
 
         // Update logic
         // If you were using the Senior-level 'ContactInfo' object,
@@ -85,7 +86,7 @@ public class GuardianServiceImpl implements GuardianService {
     @Override
     public String removeGuardian(Long guardianId) {
         Guardian guardian = guardianRepository.findById(guardianId)
-                .orElseThrow(() -> new EntityNotFoundException("Guardian not found with ID: " + guardianId));
+                .orElseThrow(() -> new ResourceNotFoundException("Guardian not found with ID: " + guardianId));
 
         guardianRepository.delete(guardian);
         return "Guardian with ID: " + guardianId + " has been deleted.";

@@ -5,6 +5,7 @@ import com.lytwind.academix.dto.StudentUpdateRequestDto;
 import com.lytwind.academix.entity.Classroom;
 import com.lytwind.academix.entity.Guardian;
 import com.lytwind.academix.entity.Student;
+import com.lytwind.academix.exception.ResourceNotFoundException;
 import com.lytwind.academix.mapper.StudentMapper;
 import com.lytwind.academix.repository.ClassroomRepository;
 import com.lytwind.academix.repository.GuardianRepository;
@@ -33,10 +34,10 @@ public class StudentServiceImpl implements StudentService {
             throw new RuntimeException("Student with the details already exist.");
 
         Guardian guardian = guardianRepository.findById(guardianId)
-                .orElseThrow(()-> new IllegalArgumentException("There is no guardian with this id: " + guardianId));
+                .orElseThrow(()-> new ResourceNotFoundException("There is no guardian with this id: " + guardianId));
 
         Classroom classroom = classroomRepository.findByRoomNumber(classroomNumber)
-                .orElseThrow(()-> new IllegalArgumentException("There is no Classroom with this room number " + classroomNumber));
+                .orElseThrow(()-> new ResourceNotFoundException("There is no Classroom with this room number " + classroomNumber));
 
         //checks if the class capacity is still less than maximum capacity
         if(classroom.getCapacity() ==  classroom.getMaxRoomCapacity()){
@@ -66,7 +67,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentResponseDto getStudentById(Long id) {
         Student student = studentRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Student not found"));
+                .orElseThrow(()-> new ResourceNotFoundException("Student not found"));
 
         return StudentMapper.mapToStudentResponseDto(student);
     }
@@ -82,7 +83,7 @@ public class StudentServiceImpl implements StudentService {
         Student student = studentRepository.getReferenceById(id);
 
         Classroom classroom = classroomRepository.findByRoomNumber(studentDetails.classroomNumber())
-                .orElseThrow(()-> new IllegalArgumentException("The class with this id: " +
+                .orElseThrow(()-> new ResourceNotFoundException("The class with this id: " +
                         studentDetails.classroomNumber() + " does not exist"));
 
         // Update fields from the MappedSuperclass and Student class
@@ -99,9 +100,9 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     public StudentResponseDto updateStudentGuardian(Long studentId, Long guardianId) {
         Student student = studentRepository.findById(studentId)
-                .orElseThrow(() -> new RuntimeException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found"));
         Guardian guardian = guardianRepository.findById(guardianId)
-                .orElseThrow(() -> new RuntimeException("Guardian not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Guardian not found"));
         student.setGuardian(guardian);
 
         Student updatedStudent = studentRepository.save(student);

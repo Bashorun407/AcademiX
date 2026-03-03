@@ -4,6 +4,7 @@ import com.lytwind.academix.dto.TeacherResponseDto;
 import com.lytwind.academix.entity.Department;
 import com.lytwind.academix.entity.Student;
 import com.lytwind.academix.entity.Teacher;
+import com.lytwind.academix.exception.ResourceNotFoundException;
 import com.lytwind.academix.mapper.TeacherMapper;
 import com.lytwind.academix.repository.DepartmentRepository;
 import com.lytwind.academix.repository.TeacherRepository;
@@ -24,10 +25,10 @@ public class TeacherServiceImpl implements TeacherService {
     public TeacherResponseDto createTeacher(String firstName, String lastName, String employeeId,
                                             String email, String phoneNumber, String departmentName) {
         if(teacherRepository.existsByEmployeeId(employeeId))
-            throw new RuntimeException("Employee with this ID already exists.");
+            throw new IllegalArgumentException("Employee with this ID already exists.");
 
         Department department = departmentRepository.findByNameIgnoreCase(departmentName)
-                .orElseThrow(()-> new RuntimeException("Department with this department name: " + " does not exist."));
+                .orElseThrow(()-> new ResourceNotFoundException("Department with this department name: " + " does not exist."));
 
         Teacher teacher = new Teacher();
         teacher.setFirstName(firstName);
@@ -51,9 +52,9 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public TeacherResponseDto assignToDepartment(Long teacherId, Long deptId) {
         Teacher teacher = teacherRepository.findById(teacherId)
-                .orElseThrow();
+                .orElseThrow(()-> new ResourceNotFoundException("There is no teacher with this ID: " + teacherId));
         Department department = departmentRepository.findById(deptId)
-                .orElseThrow();
+                .orElseThrow(()-> new ResourceNotFoundException("There is no department with this ID: " + deptId));
         teacher.setDepartment(department);
         Teacher updatedTeacher = teacherRepository.save(teacher);
 

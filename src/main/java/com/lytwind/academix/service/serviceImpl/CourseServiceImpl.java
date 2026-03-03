@@ -3,6 +3,7 @@ package com.lytwind.academix.service.serviceImpl;
 import com.lytwind.academix.dto.CourseResponseDto;
 import com.lytwind.academix.entity.Course;
 import com.lytwind.academix.entity.Department;
+import com.lytwind.academix.exception.ResourceNotFoundException;
 import com.lytwind.academix.mapper.CourseMapper;
 import com.lytwind.academix.repository.CourseRepository;
 import com.lytwind.academix.repository.DepartmentRepository;
@@ -25,7 +26,7 @@ public class CourseServiceImpl implements CourseService {
             throw new IllegalArgumentException("Course already exists.");
 
         Department department = departmentRepository.findByNameIgnoreCase(departmentName)
-                .orElseThrow(()-> new IllegalArgumentException("Department with this name: " + departmentName + " does not exist"));
+                .orElseThrow(()-> new ResourceNotFoundException("Department with this name: " + departmentName + " does not exist"));
         Course course = new Course();
         course.setCourseCode(courseCode);
         course.setTitle(title);
@@ -46,11 +47,11 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public CourseResponseDto updateCourse(String courseCode, String title, int creditUnits, String departmentName) {
         Course course = courseRepository.findByCourseCode(courseCode)
-                .orElseThrow(()-> new IllegalArgumentException("Course with this course code: "+ courseCode
+                .orElseThrow(()-> new ResourceNotFoundException("Course with this course code: "+ courseCode
                         + " does not exist."));
 
         Department department = departmentRepository.findByNameIgnoreCase(departmentName)
-                        .orElseThrow(()-> new IllegalArgumentException("There is no department with this name: " + departmentName));
+                        .orElseThrow(()-> new ResourceNotFoundException("There is no department with this name: " + departmentName));
         course.setTitle(title);
         course.setCreditUnits(creditUnits);
         course.setDepartment(department);
@@ -61,7 +62,7 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public String deleteCourse(String courseCode) {
         Course course = courseRepository.findByCourseCode(courseCode)
-                .orElseThrow(()-> new IllegalArgumentException("Course with this course code: "+ courseCode
+                .orElseThrow(()-> new ResourceNotFoundException("Course with this course code: "+ courseCode
                         + " does not exist."));
 
         courseRepository.delete(course);
