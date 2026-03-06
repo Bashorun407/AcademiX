@@ -7,7 +7,6 @@ public record StudentRegisterRequestDto(
         String lastName,
         String email,
         String phoneNumber,
-        String studentRegNumber,
         LocalDate dateOfBirth,
         String classroomNumber,
         Long guardianId
@@ -24,10 +23,6 @@ public record StudentRegisterRequestDto(
 
         if(guardianId == null){
             throw new IllegalArgumentException("Guardian ID cannot be null.");
-        }
-
-        if(studentRegNumber == null || classroomNumber == null){
-            throw new IllegalArgumentException("Student Registration Number or Classroom Number cannot be null.");
         }
 
         if(dateOfBirth == null){

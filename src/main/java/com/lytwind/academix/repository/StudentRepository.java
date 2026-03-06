@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    Optional<StudentView> findByStudentRegNumber(String regNumber);
-    boolean existsByStudentRegNumberAndLastName(String studentRegNumber, String lastName);
+    Optional<Student> findByStudentRegNumber(String regNumber);
+    boolean existsByEmailAndLastName(String email, String lastName);
     List<StudentView> findByLastNameContainingIgnoreCase(String name);
 }

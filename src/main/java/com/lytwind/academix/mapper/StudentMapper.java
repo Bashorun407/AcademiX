@@ -11,6 +11,7 @@ public class StudentMapper {
         return new StudentResponseDto(
                 student.getFirstName(),
                 student.getLastName(),
+                student.getStudentRegNumber(),
                 student.getEmail(),
                 student.getPhoneNumber(),
                 student.getClassroom().getRoomNumber(),
@@ -24,6 +25,7 @@ public class StudentMapper {
         return new StudentResponseDto(
                 studentView.getFirstName(),
                 studentView.getLastName(),
+                studentView.getStudentRegNumber(),
                 studentView.getEmail(),
                 studentView.getPhoneNumber(),
                 studentView.getClassRoom().getRoomNumber(),

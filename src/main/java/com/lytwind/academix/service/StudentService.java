@@ -9,11 +9,10 @@ import java.util.List;
 
 public interface StudentService {
     StudentResponseDto registerStudent(String firstName, String lastName, String email, String phoneNumber,
-                                       String studentRegNumber, LocalDate dateOfBirth, String classroomNumber,
-                                       Long guardianId); //Already implemented in Enrollment service
+                                       LocalDate dateOfBirth, String classroomNumber, Long guardianId); //Already implemented in Enrollment service
     StudentResponseDto getStudentById(Long id);
     List<StudentResponseDto> getAllStudents();
-    StudentResponseDto updateStudent(Long id, StudentUpdateRequestDto studentDetails);
+    StudentResponseDto updateStudent(String studentRegNumber, StudentUpdateRequestDto studentDetails);
     String deleteStudent(Long id);
     StudentResponseDto updateStudentGuardian(Long studentId, Long guardianId);
 }

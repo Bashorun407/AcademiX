@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public interface StudentView {
     String getFirstName();
     String getLastName();
+    String getStudentRegNumber();
     String getEmail();
     String getPhoneNumber();
     ClassroomInfo getClassRoom();

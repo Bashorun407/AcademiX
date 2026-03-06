@@ -7,6 +7,7 @@ import java.time.LocalDate;
 public record StudentResponseDto(
         String studentFirstName,
         String studentLastName,
+        String studentRegNumber,
         String email,
         String phoneNumber,
         String roomNumber,

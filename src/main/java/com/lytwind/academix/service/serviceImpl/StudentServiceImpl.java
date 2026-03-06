@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,10 +28,10 @@ public class StudentServiceImpl implements StudentService {
     private final ClassroomRepository classroomRepository;
 
     @Override
-    public StudentResponseDto registerStudent(String firstName, String lastName, String email, String phoneNumber,
-                                              String studentRegNumber, LocalDate dateOfBirth, String classroomNumber,
+    public StudentResponseDto registerStudent(String firstName, String lastName, String email,
+                                              String phoneNumber, LocalDate dateOfBirth, String classroomNumber,
                                               Long guardianId) {
-        if (studentRepository.existsByStudentRegNumberAndLastName(studentRegNumber, lastName))
+        if (studentRepository.existsByEmailAndLastName(email, lastName))
             throw new RuntimeException("Student with the details already exist.");
 
         Guardian guardian = guardianRepository.findById(guardianId)
@@ -49,7 +50,7 @@ public class StudentServiceImpl implements StudentService {
         student.setLastName(lastName);
         student.setEmail(email);
         student.setPhoneNumber(phoneNumber);
-        student.setStudentRegNumber(studentRegNumber);
+        student.setStudentRegNumber(generateStudentRegNumber());
         student.setDateOfBirth(dateOfBirth);
         student.setGuardian(guardian);
         student.setClassroom(classroom);
@@ -79,8 +80,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public StudentResponseDto updateStudent(Long id, StudentUpdateRequestDto studentDetails) {
-        Student student = studentRepository.getReferenceById(id);
+    public StudentResponseDto updateStudent(String studentRegNumber, StudentUpdateRequestDto studentDetails) {
+        Student student = studentRepository.findByStudentRegNumber(studentRegNumber)
+                .orElseThrow(()-> new ResourceNotFoundException("There is no Student with this Registration Number: "
+                + studentRegNumber));
 
         Classroom classroom = classroomRepository.findByRoomNumber(studentDetails.classroomNumber())
                 .orElseThrow(()-> new ResourceNotFoundException("The class with this id: " +
@@ -118,4 +121,11 @@ public class StudentServiceImpl implements StudentService {
         return "Student details removed.";
     }
 
+
+    //Helper method
+    private String generateStudentRegNumber() {
+        String timestamp = java.time.LocalDateTime.now()
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyMMdd"));
+        return "REG-" + timestamp;
+    }
 }

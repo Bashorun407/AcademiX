@@ -26,7 +26,6 @@ public class StudentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 studentService.registerStudent(studentRegisterRequestDto.firstName(), studentRegisterRequestDto.lastName(),
                         studentRegisterRequestDto.email(), studentRegisterRequestDto.phoneNumber(),
-                        studentRegisterRequestDto.studentRegNumber(),
                         studentRegisterRequestDto.dateOfBirth(), studentRegisterRequestDto.classroomNumber(),
                         studentRegisterRequestDto.guardianId()));
     }
@@ -41,11 +40,11 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
-    @PutMapping("/update/{studentId}")
-    public ResponseEntity<StudentResponseDto> updateStudent(@PathVariable Long studentId,
+    @PutMapping("/update/{studentReg}")
+    public ResponseEntity<StudentResponseDto> updateStudent(@PathVariable String studentReg,
                                                             @RequestBody StudentUpdateRequestDto studentUpdateRequestDto){
 
-        return ResponseEntity.ok(studentService.updateStudent(studentId, studentUpdateRequestDto));
+        return ResponseEntity.ok(studentService.updateStudent(studentReg, studentUpdateRequestDto));
     }
 
     //This should be called in Guardian Service update class for auto-update
