@@ -4,10 +4,12 @@ import com.lytwind.academix.dto.EnrollmentResponseDto;
 import com.lytwind.academix.entity.Course;
 import com.lytwind.academix.entity.Enrollment;
 import com.lytwind.academix.entity.Student;
+import com.lytwind.academix.exception.ResourceNotFoundException;
 import com.lytwind.academix.mapper.EnrollmentMapper;
 import com.lytwind.academix.repository.CourseRepository;
 import com.lytwind.academix.repository.EnrollmentRepository;
 import com.lytwind.academix.repository.StudentRepository;
+import com.lytwind.academix.repository.projection.EnrollmentView;
 import com.lytwind.academix.service.EnrollmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -45,5 +47,27 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     public List<EnrollmentResponseDto> getAllEnrolledStudents() {
         return enrollmentRepository.findAll()
                 .stream().map(EnrollmentMapper::mapToEnrollmentDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EnrollmentResponseDto> getStudentEnrolledCourses(Long studentId) {
+
+        return enrollmentRepository.findByStudentId(studentId).stream()
+                .map(EnrollmentMapper::mapToEnrollmentDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public String deleteStudentCourseEnrollment(Long studentId, String courseCode) {
+        if (!enrollmentRepository.existsByStudentIdAndCourseCourseCode(studentId, courseCode))
+            throw new IllegalArgumentException("This student with ID: ." + studentId + " was not registered for " +
+                    "course: " + courseCode);
+
+        Enrollment enrollment = enrollmentRepository.findByStudentIdAndCourseCourseCode(studentId, courseCode)
+                .orElseThrow(()-> new ResourceNotFoundException("Student with student ID: " + studentId +
+                        " and course code: " + courseCode));
+
+        enrollmentRepository.delete(enrollment);
+
+        return "Enrollment has been successfully removed.";
     }
 }

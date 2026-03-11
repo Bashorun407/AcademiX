@@ -7,4 +7,7 @@ import java.util.List;
 public interface EnrollmentService {
     EnrollmentResponseDto enrollStudent(Long studentId, String courseCode);
     List<EnrollmentResponseDto> getAllEnrolledStudents();
+    List<EnrollmentResponseDto> getStudentEnrolledCourses(Long studentId);
+    String deleteStudentCourseEnrollment(Long studentId, String courseCode);
+
 }

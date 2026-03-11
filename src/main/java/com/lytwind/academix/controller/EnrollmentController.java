@@ -30,7 +30,19 @@ public class EnrollmentController {
 
     @GetMapping("/all-enrollments")
     public ResponseEntity<List<EnrollmentResponseDto>> getAllEnrolledStudents(){
-        List<EnrollmentResponseDto> enrolledStudents = enrollmentService.getAllEnrolledStudents();
-        return ResponseEntity.ok(enrolledStudents);
+        return ResponseEntity.ok(enrollmentService.getAllEnrolledStudents());
+    }
+
+    @GetMapping("/student-enrollments/{studentId}")
+    public ResponseEntity<List<EnrollmentResponseDto>> getStudentEnrolledCourses(@PathVariable Long studentId){
+        return ResponseEntity.ok(enrollmentService.getStudentEnrolledCourses(studentId));
+    }
+
+    @DeleteMapping("/remove-enrollment")
+    public ResponseEntity<String> deleteStudentCourseEnrollment(@RequestBody EnrollmentRequestDto enrollmentRequestDto){
+        return  ResponseEntity.ok(enrollmentService.deleteStudentCourseEnrollment(
+                enrollmentRequestDto.studentId(),
+                enrollmentRequestDto.courseCode()
+        ));
     }
 }
